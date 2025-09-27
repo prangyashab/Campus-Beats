@@ -1,0 +1,110 @@
+/* Custom styles for section hover behavior */
+.section-hover:hover .scroll-btn {
+  opacity: 1 !important;
+}
+
+/* Hide scrollbar for horizontal scrolling */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ensure smooth transitions */
+.scroll-btn {
+  transition: opacity 0.3s ease;
+}
+
+/* GPU acceleration for smooth animations */
+.transform-gpu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.translate3d-0 {
+  transform: translate3d(0, 0, 0);
+}
+
+/* Optimize will-change for performance */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* Custom overlay animations */
+@keyframes slideInFromBottom {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutToBottom {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInZoom {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.overlay-enter {
+  animation: slideInFromBottom 600ms ease-in-out;
+}
+
+.overlay-exit {
+  animation: slideOutToBottom 500ms ease-in-out;
+}
+
+.image-enter {
+  animation: fadeInZoom 700ms ease-in-out;
+  animation-delay: 100ms;
+  animation-fill-mode: both;
+}
+
+.details-enter {
+  animation: slideInFromBottom 600ms ease-in-out;
+  animation-delay: 200ms;
+  animation-fill-mode: both;
+}
+
+.queue-enter {
+  animation: slideInFromRight 700ms ease-in-out;
+  animation-delay: 300ms;
+  animation-fill-mode: both;
+}

@@ -1,0 +1,5 @@
+{
+  "name": "Campus Beats",
+  "description": "A music streaming app exclusively for university students and teachers. Users can upload tracks, listen to AI-curated playlists, join live listening rooms, and climb leaderboards to become a campus music legend.",
+  "requestFramePermissions": []
+}
