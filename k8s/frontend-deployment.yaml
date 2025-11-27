@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: campus-beats-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: campus-beats-frontend
+  template:
+    metadata:
+      labels:
+        app: campus-beats-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: swaraj0405/campus-beats-frontend:latest
+        ports:
+        - containerPort: 80

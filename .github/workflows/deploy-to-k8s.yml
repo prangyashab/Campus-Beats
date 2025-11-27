@@ -1,0 +1,53 @@
+name: Deploy to Kubernetes
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: secrets.KUBE_CONFIG_DATA != '' && secrets.DOCKERHUB_USERNAME != ''
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install envsubst
+        run: sudo apt-get update && sudo apt-get install -y gettext-base
+
+      - name: Generate manifests
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+        run: |
+          cd k8s
+          mkdir -p generated
+          envsubst < secret-template.yaml > generated/secret.yaml
+          envsubst < backend-deployment.yaml > generated/backend-deployment.yaml
+          envsubst < frontend-deployment.yaml > generated/frontend-deployment.yaml
+          envsubst < mysql-deployment.yaml > generated/mysql-deployment.yaml
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+
+      - name: Configure kubeconfig
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        run: |
+          echo "$KUBE_CONFIG_DATA" | base64 --decode > kubeconfig
+          export KUBECONFIG=$PWD/kubeconfig
+          kubectl version --client
+
+      - name: Apply manifests
+        env:
+          KUBECONFIG: ${{ github.workspace }}/kubeconfig
+        run: |
+          kubectl apply -f k8s/generated/secret.yaml
+          kubectl apply -f k8s/generated/mysql-deployment.yaml
+          kubectl apply -f k8s/mysql-service.yaml
+          kubectl apply -f k8s/generated/backend-deployment.yaml
+          kubectl apply -f k8s/backend-service.yaml
+          kubectl apply -f k8s/generated/frontend-deployment.yaml
+          kubectl apply -f k8s/frontend-service.yaml

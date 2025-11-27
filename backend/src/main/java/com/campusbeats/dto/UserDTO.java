@@ -1,6 +1,5 @@
 package com.campusbeats.dto;
 
-import com.campusbeats.entity.BadgeType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;

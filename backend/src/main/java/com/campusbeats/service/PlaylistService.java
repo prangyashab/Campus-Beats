@@ -27,8 +27,6 @@ public class PlaylistService {
     @Autowired
     private TrackRepository trackRepository;
     
-    @Autowired
-    private TrackService trackService;
     
     @Autowired
     private UserRepository userRepository;

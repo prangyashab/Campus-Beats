@@ -2,7 +2,6 @@ package com.campusbeats.service;
 
 import com.campusbeats.dto.TrackDTO;
 import com.campusbeats.entity.Track;
-import com.campusbeats.entity.User;
 import com.campusbeats.repository.TrackRepository;
 import com.campusbeats.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

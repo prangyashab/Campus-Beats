@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:3000", "http://127.0.0.1:5173"})
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:3000", "http://127.0.0.1:5173", "http://localhost:4000", "http://localhost:3001", "http://127.0.0.1:4000", "http://127.0.0.1:3001"})
 public class AuthController {
     
     @Autowired
@@ -47,7 +47,7 @@ public class AuthController {
             user.setPassword(request.getPassword()); // Will be hashed in service
             user.setUniversityDomain(request.getEmail().split("@")[1]);
             
-            UserDTO createdUser = userService.createUser(user);
+            userService.createUser(user);
             
             // Send verification email
             User userEntity = userService.getUserEntityByEmail(request.getEmail());
@@ -220,7 +220,6 @@ public class AuthController {
          String email = request.get("email");
          String name = request.get("name");
          String password = request.get("password");
-         String confirmPassword = request.get("confirmPassword");
          try {
              
              // Get the temporary user and complete registration

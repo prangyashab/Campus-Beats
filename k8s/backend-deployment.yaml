@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: campus-beats-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: campus-beats-backend
+  template:
+    metadata:
+      labels:
+        app: campus-beats-backend
+    spec:
+      containers:
+      - name: backend
+        image: swaraj0405/campus-beats-backend:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://mysql:3306/campusbeats
+        - name: SPRING_DATASOURCE_USERNAME
+          value: root
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: campus-beats-secrets
+              key: mysql-root-password

@@ -1,0 +1,29 @@
+- hosts: k8s
+  become: true
+  vars:
+    manifests_src: "{{ playbook_dir }}/../k8s"
+    manifests_dest: "/tmp/campus-beats-k8s"
+
+  tasks:
+    - name: Ensure destination directory exists
+      file:
+        path: "{{ manifests_dest }}"
+        state: directory
+        mode: '0755'
+
+    - name: Copy k8s manifests to remote host
+      copy:
+        src: "{{ manifests_src }}/"
+        dest: "{{ manifests_dest }}/"
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Apply Kubernetes manifests
+      command: kubectl apply -f {{ manifests_dest }}
+      register: kubectl_apply
+      changed_when: "'configured' in kubectl_apply.stdout or kubectl_apply.rc == 0"
+
+    - name: Show kubectl output
+      debug:
+        var: kubectl_apply.stdout

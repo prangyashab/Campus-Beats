@@ -30,8 +30,6 @@ public class ListeningHistoryService {
     @Autowired
     private TrackRepository trackRepository;
     
-    @Autowired
-    private TrackService trackService;
     
     public List<ListeningHistoryDTO> getRecentlyPlayedByUser(String userId, int limit) {
         Long userIdLong = Long.parseLong(userId);
